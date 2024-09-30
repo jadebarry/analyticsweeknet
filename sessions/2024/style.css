@@ -1,6 +1,7 @@
 body {
   background: rgb(236,229,251);
   background: linear-gradient(90deg, rgba(236,229,251,1) 0%, rgba(230,246,252,1) 100%);
+  font-color: #5C5167;
 }
 
 .video-gallery-container {
