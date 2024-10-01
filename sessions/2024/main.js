@@ -15,5 +15,10 @@ const showVideo = (videoId, title) => {
 videoThumbnails.forEach((v) => {
   v.addEventListener("click", () => {
     showVideo(v.dataset.id, v.dataset.title);
+    // Scroll to the top of the page smoothly
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
   });
 });
