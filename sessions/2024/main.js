@@ -15,6 +15,10 @@ const showVideo = (videoId, title) => {
 videoThumbnails.forEach((v) => {
   v.addEventListener("click", () => {
     showVideo(v.dataset.id, v.dataset.title);
-    $(window).scrollTop(0);
   });
+});
+
+$('.play-icon').click(function(){
+    $('html, body').animate({scrollTop:0}, 'slow');
+    return false;
 });
