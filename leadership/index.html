@@ -13,7 +13,7 @@
 
         body {
             font-family: 'National Park', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background-color: #f5f5f5;
+            background-color: #FDF1D3;
             color: #333;
             line-height: 1.6;
         }
@@ -22,13 +22,11 @@
             color: #895645;
             padding: 20px;
             text-align: center;
-            /*box-shadow: 0 2px 10px rgba(0,0,0,0.1);*/
         }
 
         .header h1 {
             font-size: 2.5em;
             margin-bottom: 10px;
-            /*text-shadow: 2px 2px 4px rgba(0,0,0,0.3);*/
         }
 
         .header p {
@@ -42,14 +40,23 @@
             padding: 20px;
         }
 
-        
-
-        .day-filter {
+        .controls {
             display: flex;
             gap: 10px;
             margin-bottom: 30px;
             flex-wrap: wrap;
             justify-content: center;
+            align-items: center;
+        }
+
+        .day-filter {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        a {
+            color: #f8b624;
         }
 
         .day-btn {
@@ -69,12 +76,34 @@
             background: #895645;
             color: white;
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(137, 86, 69, 0.3);
+            /*box-shadow: 0 4px 8px rgba(137, 86, 69, 0.3);*/
+            box-shadow: #895645 5px 5px;
         }
 
         .day-btn.active {
             background: #895645;
             color: white;
+        }
+
+        .expand-toggle {
+            padding: 10px 20px;
+            border: 2px solid #f8b624;
+            background: white;
+            color: #f8b624;
+            font-family: 'National Park', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .expand-toggle:hover {
+            background: #f8b624;
+            color: white;
+            transform: translateY(-2px);
+            /*box-shadow: 0 4px 8px rgba(137, 86, 69, 0.3);*/
+            box-shadow: #895645 5px 5px;
         }
 
         .day-section {
@@ -122,7 +151,7 @@
             display: flex;
             flex-direction: column;
             gap: 2px;
-            background: #e0e0e0;
+            background: #895645;
         }
 
         .session {
@@ -151,6 +180,42 @@
             font-weight: 600;
             color: #333;
             margin-bottom: 8px;
+        }
+
+        .session-description {
+            color: #444;
+            margin-bottom: 5px;
+            position: relative;
+            transition: max-height 0.3s ease;
+        }
+
+        .session-description.collapsed {
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            line-height: 1.5;
+            max-height: 3em;
+        }
+
+        .session-description.expanded {
+            max-height: none;
+        }
+
+        .read-more-btn {
+            color: #895645;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9em;
+            text-decoration: underline;
+            padding: 2px 0;
+            margin-top: 5px;
+            transition: color 0.3s ease;
+        }
+
+        .read-more-btn:hover {
+            color: #f8b624;
         }
 
         .session-presenter {
@@ -220,6 +285,19 @@
                 padding: 10px 18px;
                 font-size: 14px;
             }
+
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .day-filter {
+                justify-content: center;
+            }
+
+            .expand-toggle {
+                align-self: center;
+            }
         }
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -228,17 +306,22 @@
 </head>
 <body>
     <div class="header">
-        <img src="AW25 Logo.png" class="logo">
+        <img src="//AW25 Logo.png" class="logo">
         <h1>Analytics Week 2025 Leadership Schedule</h1>
         <p>August 5-7 • Columbus, OH</p>
-        <p>This schedule is for all M-level leaders.</p>
+        <p>This schedule is for all M-level leaders. <a href="https://analyticsweek.net">Head here</a> for the individual contributor schedule.</p>
     </div>
 
     <div class="container">
-        <div class="day-filter">
-            <button class="day-btn active" onclick="showDay('tuesday')">Tuesday</button>
-            <button class="day-btn" onclick="showDay('wednesday')">Wednesday</button>
-            <button class="day-btn" onclick="showDay('thursday')">Thursday</button>
+        <div class="controls">
+            <div class="day-filter">
+                <button class="day-btn active" onclick="showDay('tuesday')">Tuesday</button>
+                <button class="day-btn" onclick="showDay('wednesday')">Wednesday</button>
+                <button class="day-btn" onclick="showDay('thursday')">Thursday</button>
+            </div>
+            <button class="expand-toggle" onclick="toggleAllDescriptions()" id="expandToggle">
+                Expand All Descriptions
+            </button>
         </div>
 
         <!-- Tuesday Schedule -->
@@ -249,23 +332,29 @@
                 <div class="time-header">9:30 AM - 9:50 AM</div>
                 <div class="session">
                     <div class="session-title">Opening Kickoff</div>
-                    <div class="session-presenter">Clay Courville, Jade Barry, Dania Ahmed</div>
+                    <div class="session-description collapsed">Join us as we kick off Analytics Week 2025!</div>
+                    <button class="read-more-btn" onclick="toggleDescription(this)" style="display: none;">Read More</button>
+                    <div class="session-presenter">Dania Ahmed, Jade Barry</div>
                     <div class="session-room"><span class="icon">📍</span>B2 5th Floor Banquet</div>
                 </div>
             </div>
 
-            <div class="time-slot">
+             <div class="time-slot">
                 <div class="time-header">10:00 AM - 10:40 AM</div>
                 <div class="parallel-sessions">
                     <div class="session">
                         <div class="parallel-indicator"></div>
                         <div class="session-title">PA Denial Analysis Algorithm: The Sequel</div>
+                        <div class="session-description collapsed">Building on their Analytics Week 2023 presentation, Andrew and Travis have completed the second phase of the complex process of understanding PA denials. Their algorithm analyzes question sets, denial letters, and plan responses to determine denial reasons—transforming a manual process into a scalable solution that addresses a key client need.</div>
+                        <button class="read-more-btn" onclick="toggleDescription(this)">Read More</button>
                         <div class="session-presenter">Andrew Castillo & Travis Somers</div>
                         <div class="session-room"><span class="icon">📍</span>B2 5th Floor Banquet</div>
                     </div>
                     <div class="session">
                         <div class="parallel-indicator"></div>
                         <div class="session-title">The Power of Not Knowing</div>
+                        <div class="session-description collapsed">In a field obsessed with having the right answers, Naomi Bohning explores the transformative power of admitting when you don't know something. Drawing from her unique journey as a year-round intern for RxSS from 2022 to 2024 (now full-time since January 2025), Bohning shares how embracing uncertainty and curiosity can unlock deeper insights and drive innovation. She and Nick will discuss practical approaches to onboarding, knowledge sharing, and creating environments where new team members can contribute meaningfully from day one.</div>
+                        <button class="read-more-btn" onclick="toggleDescription(this)">Read More</button>
                         <div class="session-presenter">Naomi Bohning & Nick Gragg</div>
                         <div class="session-room"><span class="icon">📍</span>B2 2nd Floor Training Rooms</div>
                     </div>
@@ -278,12 +367,16 @@
                     <div class="session">
                         <div class="parallel-indicator"></div>
                         <div class="session-title">Multi-step Agentic LLMs</div>
+                        <div class="session-description collapsed">Move beyond simple prompting to create workflows that work. Through real-world examples from his work on the PolicyPatterns project during his Climatebase Fellowship, Rohan shares practical techniques for designing robust LLM workflows that harness the full potential of large language models while maintaining the precision your work demands.</div>
+                        <button class="read-more-btn" onclick="toggleDescription(this)">Read More</button>
                         <div class="session-presenter">Rohan Myers</div>
                         <div class="session-room"><span class="icon">📍</span>B2 5th Floor Banquet</div>
                     </div>
                     <div class="session">
                         <div class="parallel-indicator"></div>
                         <div class="session-title">The Medical Benefit Market: CMM's Strategic Pivot</div>
+                        <div class="session-description collapsed">As medications become increasingly specialized, the traditional pharmacy benefit model faces new challenges. Nathaniel will share insights from leading Biopharma and Provider targeting efforts for USP, explaining why CMM's growth depends on expanding into medical solutions – hence our recent acquisitions in this space. Drawing on his expertise with Compile medical claims data, he'll outline the market dynamics driving this shift.</div>
+                        <button class="read-more-btn" onclick="toggleDescription(this)">Read More</button>
                         <div class="session-presenter">Nathaniel Buzenski</div>
                         <div class="session-room"><span class="icon">📍</span>B2 2nd Floor Training Rooms</div>
                     </div>
@@ -294,22 +387,18 @@
                 <div class="time-header">12:00 PM - 12:55 PM</div>
                 <div class="session special-event">
                     <div class="session-title">🍽️ Lunch</div>
+                    <div class="session-description collapsed">We have arranged dedicated lunch service for Analytics Week attendees in Building 2's community space by the staircase.</div>
+                    <button class="read-more-btn" onclick="toggleDescription(this)" style="display: none;">Read More</button>
                     <div class="session-room"><span class="icon">📍</span>B2 2nd Floor Community Space</div>
-                </div>
-            </div>
-
-            <div class="time-slot">
-                <div class="time-header">12:30 PM - 2:30 PM</div>
-                <div class="session special-event">
-                    <div class="session-title">☕ Callin Your Bluff Coffee</div>
-                    <div class="session-room"><span class="icon">📍</span>B2 5th Floor Banquet</div>
                 </div>
             </div>
 
             <div class="time-slot">
                 <div class="time-header">1:00 PM - 3:30 PM</div>
                 <div class="session">
-                    <div class="session-title">Innovation Workshop</div>
+                    <div class="session-title">🏕️🤫</div>
+                    <div class="session-description collapsed">A workshop for everyone. Details soon 👀</div>
+                    <button class="read-more-btn" onclick="toggleDescription(this)" style="display: none;">Read More</button>
                     <div class="session-room"><span class="icon">📍</span>B2 5th Floor Banquet</div>
                 </div>
             </div>
@@ -320,11 +409,15 @@
                     <div class="session">
                         <div class="parallel-indicator"></div>
                         <div class="session-title">The Juggle Is Real: Honest Conversations About Being a Working Parent</div>
+                        <div class="session-description collapsed">Being a working parent is a constant balancing act—between meetings and mealtimes, deadlines and daycare pickups. In this candid panel discussion, professionals at every level—from individual contributors to executives—share their real-life experiences navigating the joys and challenges of parenting while building an analytic career. Expect honest stories, practical strategies, and a reminder that you're not alone in the juggle. Whether you're a new parent, seasoned pro, or simply curious, this session offers connection, community, and support.</div>
+                        <button class="read-more-btn" onclick="toggleDescription(this)">Read More</button>
                         <div class="session-room"><span class="icon">📍</span>B2 5th Floor Banquet</div>
                     </div>
                     <div class="session">
                         <div class="parallel-indicator"></div>
                         <div class="session-title">Decoding the ever-changing GLP-1 Market by harnessing pharmaceutical claims data</div>
+                        <div class="session-description collapsed">An analysis of how payer strategies are reshaping the GLP-1 market, based on pharmacy network data insights. Sanjoli and Ellen will reveal how they utilized our extensive pharmacy switch data to uncover payer behavior and provide insight into future market implications.</div>
+                        <button class="read-more-btn" onclick="toggleDescription(this)">Read More</button>
                         <div class="session-room"><span class="icon">📍</span>B2 2nd Floor Training Rooms</div>
                     </div>
                 </div>
@@ -333,7 +426,9 @@
             <div class="time-slot">
                 <div class="time-header">6:00 PM</div>
                 <div class="session special-event">
-                    <div class="session-title">🍻 Hashtag Happy Hour</div>
+                    <div class="session-title">🍻 Team Outings / Hashtag Happy Hour</div>
+                    <div class="session-description collapsed">Some leaders are planning outings, or you can feel free to snag a free ticket to our Hashtag comedy show!</div>
+                    <button class="read-more-btn" onclick="toggleDescription(this)" style="display: none;">Read More</button>
                     <div class="session-room">
                         <span class="icon">📍</span>
                         <a href="https://maps.google.com/?q=The+Hashtag+Comedy+Club+1253+N+High+St+Columbus+OH+43201" 
@@ -355,14 +450,19 @@
                 <div class="time-header">9:00 AM - 10:00 AM</div>
                 <div class="session special-event">
                     <div class="session-title">🥞 Team Breakfast</div>
+                    <div class="session-description collapsed">Connect with your team while sharing a meal together before the events of the day begin.</div>
+                    <button class="read-more-btn" onclick="toggleDescription(this)" style="display: none;">Read More</button>
                     <div class="session-room"><span class="icon">📍</span>B2 5th Floor Banquet</div>
                 </div>
             </div>
+
 
             <div class="time-slot">
                 <div class="time-header">10:00 AM - 10:40 AM</div>
                 <div class="session">
                     <div class="session-title">Multipliers</div>
+                    <div class="session-description collapsed"></div>
+                    <button class="read-more-btn" onclick="toggleDescription(this)" style="display: none;">Read More</button>
                     <div class="session-room"><span class="icon">📍</span>B2 2nd Floor Training Rooms</div>
                 </div>
             </div>
@@ -371,6 +471,8 @@
                 <div class="time-header">11:00 AM - 11:20 AM</div>
                 <div class="session">
                     <div class="session-title">IC to Leader</div>
+                    <div class="session-description collapsed"></div>
+                    <button class="read-more-btn" onclick="toggleDescription(this)" style="display: none;">Read More</button>
                     <div class="session-room"><span class="icon">📍</span>B2 2nd Floor Training Rooms</div>
                 </div>
             </div>
@@ -379,6 +481,8 @@
                 <div class="time-header">12:00 PM - 12:55 PM</div>
                 <div class="session special-event">
                     <div class="session-title">🍽️ Lunch</div>
+                    <div class="session-description collapsed">We have arranged dedicated lunch service for Analytics Week attendees in Building 2's community space by the staircase.</div>
+                    <button class="read-more-btn" onclick="toggleDescription(this)" style="display: none;">Read More</button>
                     <div class="session-room"><span class="icon">📍</span>B2 2nd Floor Community Space</div>
                 </div>
             </div>
@@ -388,22 +492,18 @@
                     <div class="session">
                         <div class="parallel-indicator"></div>
                         <div class="session-title">WitWorks for Leaders</div>
+                        <div class="session-description collapsed"></div>
+                        <button class="read-more-btn" onclick="toggleDescription(this)" style="display: none;">Read More</button>
                         <div class="session-room"><span class="icon">📍</span>B2 2nd Floor Training Rooms</div>
                     </div>
-            </div>
-
-            <div class="time-slot">
-                <div class="time-header">1:00 PM - 3:00 PM</div>
-                <div class="session special-event">
-                    <div class="session-title">🍦 Little Ladies Softserv</div>
-                    <div class="session-presenter">Location TBD</div>
-                </div>
             </div>
 
             <div class="time-slot">
                 <div class="time-header">3:20 PM - 4:00 PM</div>
                 <div class="session">
                     <div class="session-title">Strategic Thinking for Analytics Leaders</div>
+                    <div class="session-description collapsed"></div>
+                    <button class="read-more-btn" onclick="toggleDescription(this)" style="display: none;">Read More</button>
                     <div class="session-room"><span class="icon">📍</span>B2 2nd Floor Training Rooms</div>
                 </div>
             </div>
@@ -412,7 +512,9 @@
                 <div class="time-header">6:00 PM - 8:00 PM</div>
                 <div class="session special-event">
                     <div class="session-title">🍽️ Data Dines Out</div>
-                    <div class="session-presenter">Location TBD</div>
+                    <div class="session-description collapsed">Join your fellow data practitioners for dinner! We'll be gathering in groups at various restaurants across Columbus for an evening of good food and good company.</div>
+                    <button class="read-more-btn" onclick="toggleDescription(this)">Read More</button>
+                    <div class="session-presenter">Your group organizer should have reached out with location details!</div>
                 </div>
             </div>
         </div>
@@ -421,10 +523,12 @@
         <div id="thursday" class="day-section">
             <div class="day-header">Thursday, August 7</div>
             
-            <div class="time-slot">
+             <div class="time-slot">
                 <div class="time-header">9:30 AM - 10:00 AM</div>
                 <div class="session">
                     <div class="session-title">Closing Keynote</div>
+                    <div class="session-description collapsed">Secret special guest...</div>
+                    <button class="read-more-btn" onclick="toggleDescription(this)" style="display: none;">Read More</button>
                     <div class="session-room"><span class="icon">📍</span>B2 5th Floor Banquet</div>
                 </div>
             </div>
@@ -433,6 +537,8 @@
                 <div class="time-header">10:30 AM - 11:10 AM</div>
                 <div class="session">
                     <div class="session-title">Professional Development Panel</div>
+                    <div class="session-description collapsed"></div>
+                    <button class="read-more-btn" onclick="toggleDescription(this)" style="display: none;">Read More</button>
                     <div class="session-room"><span class="icon">📍</span>B2 2nd Floor Training Rooms</div>
                 </div>
             </div>
@@ -441,6 +547,8 @@
                 <div class="time-header">12:00 PM - 12:55 PM</div>
                 <div class="session special-event">
                     <div class="session-title">🍽️ Lunch</div>
+                    <div class="session-description collapsed"></div>
+                    <button class="read-more-btn" onclick="toggleDescription(this)" style="display: none;">Read More</button>
                     <div class="session-room"><span class="icon">📍</span>B2 2nd Floor Community Space</div>
                 </div>
             </div>
@@ -451,11 +559,15 @@
                     <div class="session">
                         <div class="parallel-indicator"></div>
                         <div class="session-title">Theory of Analytic Value</div>
+                        <div class="session-description collapsed">Doug presents a framework for assessing analytical value in relation to time. Drawing from his experience as both analyst and manager, he'll introduce two core principles: value is only realized upon customer delivery, and earlier delivery generates more value. He'll then show how using these principles helps deliver maximum value to the business. This practical approach helps teams identify which efforts matter most and frame discussions around actual delivery outcomes.</div>
+                        <button class="read-more-btn" onclick="toggleDescription(this)">Read More</button>
                         <div class="session-room"><span class="icon">📍</span>B2 2nd Floor Training Rooms</div>
                     </div>
                     <div class="session">
                         <div class="parallel-indicator"></div>
                         <div class="session-title">From Prompt to Practice: How We Actually Use AI</div>
+                        <div class="session-description collapsed">Still wondering how to effectively use Copilot and other multi-modal models in your daily work? This collaborative session cuts through the confusion with concrete, actionable examples from practitioners who use AI assistants every day. Mike, Alex, Amber, and Matt share real scenarios where multi-modal models made a tangible difference.</div>
+                        <button class="read-more-btn" onclick="toggleDescription(this)">Read More</button>
                         <div class="session-room"><span class="icon">📍</span>B2 5th Floor Banquet</div>
                     </div>
                 </div>
@@ -464,14 +576,18 @@
             <div class="time-slot">
                 <div class="time-header">2:00 PM - 3:30 PM</div>
                 <div class="session">
-                    <div class="session-title">Innovation Engineering Closing Readout</div>
+                    <div class="session-title">Closing Readout</div>
+                    <div class="session-description collapsed"></div>
+                    <button class="read-more-btn" onclick="toggleDescription(this)" style="display: none;">Read More</button>
                     <div class="session-room"><span class="icon">📍</span>B2 5th Floor Banquet</div>
                 </div>
             </div>
         </div>
     </div>
 
-    <script>
+        <script>
+        let allExpanded = false;
+
         function showDay(day) {
             // Hide all day sections
             const allSections = document.querySelectorAll('.day-section');
@@ -487,6 +603,83 @@
             // Add active class to clicked button
             event.target.classList.add('active');
         }
+
+        function toggleDescription(button) {
+            const description = button.previousElementSibling;
+            const isExpanded = description.classList.contains('expanded');
+            
+            // Collapse all other descriptions first
+            const allDescriptions = document.querySelectorAll('.session-description.expanded');
+            allDescriptions.forEach(desc => {
+                if (desc !== description) {
+                    desc.classList.remove('expanded');
+                    desc.classList.add('collapsed');
+                    const btn = desc.nextElementSibling;
+                    if (btn && btn.classList.contains('read-more-btn')) {
+                        btn.textContent = 'Read More';
+                    }
+                }
+            });
+            
+            // Toggle current description
+            if (isExpanded) {
+                description.classList.remove('expanded');
+                description.classList.add('collapsed');
+                button.textContent = 'Read More';
+            } else {
+                description.classList.remove('collapsed');
+                description.classList.add('expanded');
+                button.textContent = 'Read Less';
+            }
+        }
+
+        function toggleAllDescriptions() {
+            const expandToggle = document.getElementById('expandToggle');
+            const allDescriptions = document.querySelectorAll('.session-description');
+            const allButtons = document.querySelectorAll('.read-more-btn');
+            
+            if (allExpanded) {
+                // Collapse all
+                allDescriptions.forEach(desc => {
+                    desc.classList.remove('expanded');
+                    desc.classList.add('collapsed');
+                });
+                allButtons.forEach(btn => {
+                    if (btn.style.display !== 'none') {
+                        btn.textContent = 'Read More';
+                    }
+                });
+                expandToggle.textContent = 'Expand All Descriptions';
+                allExpanded = false;
+            } else {
+                // Expand all
+                allDescriptions.forEach(desc => {
+                    desc.classList.remove('collapsed');
+                    desc.classList.add('expanded');
+                });
+                allButtons.forEach(btn => {
+                    if (btn.style.display !== 'none') {
+                        btn.textContent = 'Read Less';
+                    }
+                });
+                expandToggle.textContent = 'Collapse All Descriptions';
+                allExpanded = true;
+            }
+        }
+
+        // Initialize: Hide "Read More" buttons for short descriptions
+        document.addEventListener('DOMContentLoaded', function() {
+            const allDescriptions = document.querySelectorAll('.session-description');
+            allDescriptions.forEach(desc => {
+                const button = desc.nextElementSibling;
+                if (button && button.classList.contains('read-more-btn')) {
+                    // Check if description is short (less than 80 characters or empty)
+                    if (desc.textContent.trim().length < 80 || desc.textContent.trim() === '') {
+                        button.style.display = 'none';
+                    }
+                }
+            });
+        });
     </script>
 </body>
 </html>
