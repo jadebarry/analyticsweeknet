@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Week 2025 FAQ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'National Park', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #FDF1D3;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .header {
+            color: #895645;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+
+        a {
+            color: #f8b624;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .day-filter {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .day-btn {
+            padding: 12px 24px;
+            border: 2px solid #895645;
+            background: white;
+            color: #895645;
+            font-family: 'National Park', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .day-btn:hover {
+            background: #895645;
+            color: white;
+            transform: translateY(-2px);
+            /*box-shadow: 0 4px 8px rgba(137, 86, 69, 0.3);*/
+            box-shadow: #895645 5px 5px;
+        }
+
+        .day-btn.active {
+            background: #895645;
+            color: white;
+        }
+
+        .expand-toggle {
+            padding: 10px 20px;
+            border: 2px solid #f8b624;
+            background: white;
+            color: #f8b624;
+            font-family: 'National Park', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .expand-toggle:hover {
+            background: #f8b624;
+            color: white;
+            transform: translateY(-2px);
+            /*box-shadow: 0 4px 8px rgba(137, 86, 69, 0.3);*/
+            box-shadow: #895645 5px 5px;
+        }
+
+        .day-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .day-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .day-header {
+            background: #895645;
+            color: white;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            font-size: 1.4em;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .time-slot {
+            margin-bottom: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+
+        .time-header {
+            background: #f8b624;
+            color: #333;
+            padding: 10px 20px;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .parallel-sessions {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            background: #895645;
+        }
+
+        .session {
+            background: white;
+            padding: 20px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .session:hover {
+            transform: translateX(5px);
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+        }
+
+        .parallel-indicator {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 5px;
+            background: #895645;
+        }
+
+        .session-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .session-description {
+            color: #444;
+            margin-bottom: 5px;
+            position: relative;
+            transition: max-height 0.3s ease;
+        }
+
+        .session-description.collapsed {
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            line-height: 1.5;
+            max-height: 3em;
+        }
+
+        .session-description.expanded {
+            max-height: none;
+        }
+
+        .read-more-btn {
+            color: #895645;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9em;
+            text-decoration: underline;
+            padding: 2px 0;
+            margin-top: 5px;
+            transition: color 0.3s ease;
+        }
+
+        .read-more-btn:hover {
+            color: #f8b624;
+        }
+
+        .session-presenter {
+            color: #666;
+            margin-bottom: 5px;
+            font-style: italic;
+        }
+
+        .session-room {
+            color: #895645;
+            font-weight: 500;
+            display: inline-block;
+            margin-top: 5px;
+        }
+
+        .special-event {
+            background: linear-gradient(135deg, #fff5e6 0%, #ffe4b3 100%);
+            border: 2px solid #f8b624;
+        }
+
+        .special-event .session-title {
+            color: #895645;
+        }
+
+        .logo {
+            width: 200px;
+            max-width: 70%;
+        }
+
+        .location-link {
+            color: #895645;
+            text-decoration: none;
+            border-bottom: 1px dashed #895645;
+            transition: all 0.3s ease;
+        }
+
+        .location-link:hover {
+            color: #f8b624;
+            border-bottom-color: #f8b624;
+        }
+
+        .icon {
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        @media (min-width: 768px) {
+            .parallel-sessions {
+                flex-direction: row;
+            }
+            
+            .session {
+                flex: 1;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .session-title {
+                font-size: 1.1em;
+            }
+            
+            .day-btn {
+                padding: 10px 18px;
+                font-size: 14px;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .day-filter {
+                justify-content: center;
+            }
+
+            .expand-toggle {
+                align-self: center;
+            }
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=National+Park:wght@200..800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="header">
+        <img src="AW25 Logo.png" class="logo">
+        <h1>Analytics Week 2025</h1>
+        <p>August 5-7 • Columbus, OH</p>
+        <br>
+      <h2>Is Analytics Week fully on-campus?</h2>
+        <p>Yes, we'll all be together in person this year! Beyond our usual goals of collaboration and learning, we have an amazing opportunity to reimagine the approaches that will keep moving D&A forward. We've designed the week around interactive workshops that are genuinely engaging and fun. This won’t feel like work – we promise (:</p>
+
+      <h2>Why isn’t there a virtual experience this year?</h2>
+      <p>We deliberated for a long time about how to create a valuable virtual experience for this year’s event. For anyone who has been a part of previous years, you know how important inclusivity is to us, and it was incredibly difficult for us to conclude that this year would be in-person only.</p>
+      <p>But after many attempts, it became clear – due to the nature of our strategic goals and activities – the virtual experience would be just as othering as not having one, would have been prohibitively costly to pull off with our limited planning time, and would leave folks feeling more drained than energized. Nonetheless, we have heard from a few folks with a strong desire to attend but complexities that make it impossible, and we will attempt to record as many of the community sessions as possible and share them out after Analytics Week.</p>
+     
+      <h2>What will I learn during Analytics Week?</h2>
+      <p>The workshops will give you an incredible toolkit covering innovation, creativity, and problem-solving techniques. These aren't just one-time skills, they’re designed to transform how we tackle challenges and work together every day – fostering critical ILEAD competencies.</p>
+      <p>We also have some incredible internal D&A content that teams submitted specifically for Analytics Week, so you'll hear directly from our teams about their experiences and insights.</p>
+      
+      <h2>Will there be vendor sessions?</h2>
+      <p>Not this time around. We heard loud and clear that vendor presentations can feel too sales-focused and aren't the best use of our time together. Don't worry though, we have other plans in the works to bring technical training to our teams.</p>
+     
+      <h2>Why is there a leadership track?</h2>
+      <p>We wanted to create a dedicated space where our leaders can focus on the skills that matter most for supporting our people, such as recognizing team strengths, creating development opportunities, and helping individuals grow in their careers. This track is all about building the leadership toolkit that serves our community best.</p>
+     
+      <h2>What can I expect from the schedule?</h2>
+      <p>We've built in plenty of breaks and flexibility throughout each day. The workshops are designed to be collaborative and energizing rather than overwhelming, and there will be time to connect with team members, grab coffee, and recharge between sessions.</p>
+     
+      <h2>What if I'm not sure about participating in workshops?</h2>
+      <p>We get it – interactive sessions can feel intimidating! The facilitators are experienced at creating welcoming environments where everyone can contribute in their own way. There's no pressure to be the loudest voice in the room, and all perspectives are valued.</p>
+ 
+
+    </div>
+
+   
+</body>
+</html>
